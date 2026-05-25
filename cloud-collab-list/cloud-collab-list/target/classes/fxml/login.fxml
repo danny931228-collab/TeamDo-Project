@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.cloudlist.client.LoginController"
+      alignment="CENTER" spacing="18" styleClass="app-root">
+    <padding>
+        <Insets top="36" right="54" bottom="36" left="54" />
+    </padding>
+
+    <Label text="雲端共編清單" styleClass="title-label" />
+    <Label text="支援個人清單與多人協作的即時同步任務系統" styleClass="subtitle-label" />
+
+    <VBox spacing="12" styleClass="card">
+        <Label text="使用者名稱" styleClass="field-label" />
+        <TextField fx:id="usernameField" promptText="請輸入使用者名稱" />
+
+        <Label text="Server IP" styleClass="field-label" />
+        <TextField fx:id="hostField" promptText="例如 127.0.0.1 或 192.168.1.10" />
+
+        <Label text="Port" styleClass="field-label" />
+        <TextField fx:id="portField" promptText="例如 5555" />
+
+        <Label text="協作房間名稱" styleClass="field-label" />
+        <TextField fx:id="roomField" promptText="例如 main、shopping、private_你的名字" />
+
+        <Label fx:id="statusLabel" text="尚未連線" styleClass="status-label" />
+
+        <HBox spacing="10">
+            <Button fx:id="joinButton" text="加入空間" onAction="#onJoinRoom" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="primary-button" />
+            <Button text="個人模式" onAction="#onUsePersonalRoom" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+            <Button fx:id="exitButton" text="離開系統" onAction="#onExit" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        </HBox>
+    </VBox>
+
+    <Region VBox.vgrow="ALWAYS" />
+    <Label text="提示：多人協作時，所有成員輸入相同 IP、Port 與房間名稱即可共編同一份清單。" styleClass="hint-label" />
+</VBox>

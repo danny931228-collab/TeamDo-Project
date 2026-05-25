@@ -1,0 +1,128 @@
+.root {
+    -fx-font-family: "Microsoft JhengHei UI", "Noto Sans CJK TC", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.app-root {
+    -fx-background-color: -app-bg;
+}
+
+.title-label {
+    -fx-font-size: 34px;
+    -fx-font-weight: 800;
+    -fx-text-fill: -accent;
+}
+
+.subtitle-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: -muted-text;
+}
+
+.main-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: 800;
+    -fx-text-fill: -accent;
+}
+
+.card {
+    -fx-background-color: -card-bg;
+    -fx-background-radius: 18;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 18, 0, 0, 8);
+}
+
+.top-panel, .bottom-panel {
+    -fx-background-color: -panel-bg;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0, 0, 2);
+}
+
+.field-label {
+    -fx-font-weight: 700;
+    -fx-text-fill: -main-text;
+}
+
+.status-label, .hint-label {
+    -fx-text-fill: -muted-text;
+}
+
+.pill-label {
+    -fx-background-color: -pill-bg;
+    -fx-background-radius: 999;
+    -fx-padding: 6 12 6 12;
+    -fx-text-fill: -main-text;
+}
+
+.text-field, .combo-box {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -border;
+    -fx-background-color: -input-bg;
+    -fx-text-fill: -main-text;
+    -fx-padding: 8 10 8 10;
+}
+
+.button {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 9 16 9 16;
+    -fx-background-color: -button-bg;
+    -fx-text-fill: -button-text;
+    -fx-font-weight: 700;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+}
+
+.primary-button {
+    -fx-background-color: -accent;
+    -fx-text-fill: white;
+}
+
+.danger-button {
+    -fx-background-color: -danger;
+    -fx-text-fill: white;
+}
+
+.task-list {
+    -fx-background-color: transparent;
+    -fx-padding: 18 24 18 24;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 8 0 8 0;
+}
+
+.task-row {
+    -fx-alignment: center-left;
+    -fx-padding: 14;
+    -fx-background-color: -card-bg;
+    -fx-background-radius: 16;
+    -fx-border-color: -border;
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 8, 0, 0, 3);
+}
+
+.task-id {
+    -fx-font-weight: 800;
+    -fx-text-fill: -accent;
+    -fx-min-width: 48px;
+}
+
+.task-content {
+    -fx-font-size: 15px;
+    -fx-fill: -main-text;
+    -fx-strikethrough: false;
+}
+
+.task-done-text {
+    -fx-strikethrough: true;
+    -fx-opacity: 0.55;
+}
+
+.task-meta {
+    -fx-font-size: 12px;
+    -fx-text-fill: -muted-text;
+}

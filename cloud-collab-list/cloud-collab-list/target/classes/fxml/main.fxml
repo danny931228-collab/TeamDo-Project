@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.cloudlist.client.MainController"
+            styleClass="app-root">
+    <top>
+        <VBox spacing="10" styleClass="top-panel">
+            <padding>
+                <Insets top="18" right="24" bottom="14" left="24" />
+            </padding>
+            <HBox spacing="14" alignment="CENTER_LEFT">
+                <Label text="雲端共編清單" styleClass="main-title" />
+                <Label fx:id="userLabel" text="使用者：" styleClass="pill-label" />
+                <Label fx:id="roomLabel" text="房間：" styleClass="pill-label" />
+                <Label fx:id="onlineLabel" text="在線人數：0" styleClass="pill-label" />
+            </HBox>
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Label fx:id="memberLabel" text="成員：" styleClass="status-label" />
+                <Label fx:id="syncLabel" text="同步狀態：" styleClass="status-label" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="主題色彩" />
+                <ComboBox fx:id="themeComboBox" prefWidth="140" />
+                <CheckBox fx:id="soundCheckBox" text="啟用音效" selected="true" />
+                <Button text="離開空間" onAction="#onLeaveRoom" styleClass="danger-button" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ListView fx:id="taskListView" styleClass="task-list" />
+    </center>
+
+    <bottom>
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="bottom-panel">
+            <padding>
+                <Insets top="14" right="24" bottom="18" left="24" />
+            </padding>
+            <TextField fx:id="taskInputField" promptText="輸入新任務，例如：完成期末專題報告" HBox.hgrow="ALWAYS" onAction="#onAddTask" />
+            <Button fx:id="addButton" text="新增任務" onAction="#onAddTask" styleClass="primary-button" />
+        </HBox>
+    </bottom>
+</BorderPane>

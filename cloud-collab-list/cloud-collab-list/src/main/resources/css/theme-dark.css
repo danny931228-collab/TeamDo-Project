@@ -1,0 +1,14 @@
+.root {
+    -app-bg: #111827;
+    -panel-bg: #172033;
+    -card-bg: #1f2937;
+    -input-bg: #0f172a;
+    -pill-bg: #263449;
+    -main-text: #f8fafc;
+    -muted-text: #cbd5e1;
+    -accent: #38bdf8;
+    -danger: #ef4444;
+    -border: #334155;
+    -button-bg: #334155;
+    -button-text: #f8fafc;
+}
