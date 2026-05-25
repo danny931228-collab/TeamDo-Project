@@ -1,7 +1,5 @@
 package com.cloudlist.server;
 
-import com.cloudlist.model.TaskItem;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.cloudlist.model.TaskItem;
 
 /**
  * SQLite 資料存取層。
@@ -64,13 +64,14 @@ public class DatabaseManager implements AutoCloseable {
 
     public synchronized void updateTask(long taskId, String content, String status) throws SQLException {
         String now = TaskItem.nowText();
-        boolean updateContent = content != null && !content.isBlank();
+        String trimmedContent = content == null ? null : content.trim();
+        boolean updateContent = trimmedContent != null && !trimmedContent.isEmpty();
         boolean updateStatus = status != null && !status.isBlank();
 
         if (updateContent && updateStatus) {
             try (PreparedStatement ps = connection.prepareStatement(
                     "UPDATE tasks SET content=?, status=?, updated_at=? WHERE id=?")) {
-                ps.setString(1, content.trim());
+                ps.setString(1, trimmedContent);
                 ps.setString(2, status);
                 ps.setString(3, now);
                 ps.setLong(4, taskId);
@@ -79,7 +80,7 @@ public class DatabaseManager implements AutoCloseable {
         } else if (updateContent) {
             try (PreparedStatement ps = connection.prepareStatement(
                     "UPDATE tasks SET content=?, updated_at=? WHERE id=?")) {
-                ps.setString(1, content.trim());
+                ps.setString(1, trimmedContent);
                 ps.setString(2, now);
                 ps.setLong(3, taskId);
                 ps.executeUpdate();

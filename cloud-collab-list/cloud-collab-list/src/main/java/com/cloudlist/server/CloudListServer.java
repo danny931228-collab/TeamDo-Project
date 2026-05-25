@@ -40,9 +40,11 @@ public class CloudListServer {
         try {
             CloudListServer server = new CloudListServer(port, dbPath);
             server.start();
-        } catch (Exception ex) {
+        } catch (SQLException | IOException ex) {
             System.err.println("Server 啟動失敗：" + ex.getMessage());
-            ex.printStackTrace();
+            ex.printStackTrace(System.err);
+        } catch (NumberFormatException ex) {
+            System.err.println("無效的 port 參數：" + ex.getMessage());
         }
     }
 
