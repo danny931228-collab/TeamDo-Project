@@ -15,11 +15,11 @@ public class TaskServer {
     private static final List<TaskItem> globalTasks = new ArrayList<>();
     private static int taskIdCounter = 1;
 
-    // 💡【新功能】這行用來記錄目前在線上的組員名字，這就是人數不再是 0 的秘密！
+    // 記錄目前在線上的組員名字，這就是人數不再是 0 的秘密！
     private static final Set<String> activeUsers = new HashSet<>();
 
     public static void main(String[] args) {
-        System.out.println("====== TeamDo 雲端共編清單伺服器（在線人數完美版）啟動中 ======");
+        System.out.println("====== TeamDo 雲端共編清單伺服器（終極完美版）啟動中 ======");
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("伺服器已成功啟動，正在監聽通訊埠: " + PORT);
@@ -44,25 +44,44 @@ public class TaskServer {
     }
 
     private static void handleClient(Socket socket, ObjectInputStream input, ObjectOutputStream output) {
-        String clientUsername = "未知用戶"; // 用來記錄這條連線是誰的名字，斷線時才能扣人數
+        // 💡 使用陣列來在 Lambda 閉包中動態記錄這條網路線「具體是哪位組員」
+        final String[] connectedUser = { "未知用戶" };
+
         try {
             while (true) {
                 Object obj = input.readObject();
                 if (obj instanceof Message msg) {
                     System.out.println("【收到物件】用戶: " + msg.getUsername() + ", 動作: " + msg.getType());
 
+                    // 💡 當收到該用戶傳送的 JOIN 訊息時，立刻把他的名字綁定在這條連線上
+                    if (msg.getType() == Message.Type.JOIN && msg.getUsername() != null) {
+                        connectedUser[0] = msg.getUsername();
+                    }
+
                     // 核心處理邏輯
                     handleBusinessLogic(msg, output);
                 }
             }
         } catch (EOFException | SocketException e) {
-            System.out.println("【系統通知】有組員關閉視窗中斷連線。");
+            System.out.println("【系統通知】組員 " + connectedUser[0] + " 關閉視窗中斷連線。");
         } catch (Exception e) {
             System.err.println("【核心異常】" + e.getMessage());
         } finally {
             synchronized (clientOutputs) {
                 clientOutputs.remove(output);
             }
+
+            // 💡【新增核心機制】不論是按離開還是直接按 X 關閉視窗，一律從記憶庫拔掉名字並廣播扣人數！
+            if (connectedUser[0] != null && !connectedUser[0].equals("未知用戶")) {
+                synchronized (activeUsers) {
+                    activeUsers.remove(connectedUser[0]);
+                }
+                // 發送系統文字通知大家他斷線了
+                sendSystemText(connectedUser[0] + " 離開了房間。");
+                // 重新點名，廣播最新人數給留在線上的人！
+                broadcastActiveUsers();
+            }
+
             try {
                 socket.close();
             } catch (IOException ignored) {}
@@ -90,7 +109,7 @@ public class TaskServer {
                 // 3. 廣播系統聊天室文字通知所有人
                 sendSystemText("歡迎 " + msg.getUsername() + " 進入房間！");
 
-                // 4. 關鍵：打包「最新的在線名單」，廣播給所有人更新人數 UI！
+                // 4. 打包「最新的在線名單」，廣播給所有人更新人數 UI！
                 broadcastActiveUsers();
             }
             case ADD_TASK -> {
@@ -120,7 +139,7 @@ public class TaskServer {
                 broadcastSnapshot();
             }
             case LEAVE -> {
-                // 有人點擊離開房間，名單移除他並更新人數
+                // 有人點擊按鈕離開房間
                 if (msg.getUsername() != null) {
                     activeUsers.remove(msg.getUsername());
                 }
@@ -144,10 +163,12 @@ public class TaskServer {
         broadcast(sysMsg);
     }
 
-    // 💡【新功能】專門把目前「真正有誰在線上」打包發送給秉宸的 JavaFX 介面
+    // 專門把目前「真正有誰在線上」打包發送給 JavaFX 介面
     private static void broadcastActiveUsers() {
         Message usersMsg = new Message(Message.Type.USERS);
-        usersMsg.setUsers(new HashSet<>(activeUsers));
+        synchronized (activeUsers) {
+            usersMsg.setUsers(new HashSet<>(activeUsers));
+        }
         broadcast(usersMsg);
     }
 
