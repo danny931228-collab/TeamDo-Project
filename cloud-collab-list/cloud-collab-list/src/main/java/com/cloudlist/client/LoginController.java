@@ -30,7 +30,7 @@ public class LoginController {
     private void initialize() {
         usernameField.setText(System.getProperty("user.name", "Guest"));
         hostField.setText("127.0.0.1");
-        portField.setText("5555");
+        portField.setText("8888");
         roomField.setText("main");
         statusLabel.setText("尚未連線");
     }
@@ -92,7 +92,7 @@ public class LoginController {
             usernameField.setText(username);
         }
         hostField.setText("127.0.0.1");
-        portField.setText("5555");
+        portField.setText("8888");
         roomField.setText("private_" + username);
         statusLabel.setText("已切換為個人模式房間，請確認本機 Server 已啟動後按加入。");
     }
